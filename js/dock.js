@@ -6,13 +6,13 @@
 
 // Danh sách các trang và đường dẫn tương ứng
 const navItems = [
-    { name: "Giới Thiệu Tổng Quan", href: "gioi-thieu-tong-quan.html" },
-    { name: "Vị Trí Tọa Lạc", href: "vi-tri-toa-lac.html" },
-    { name: "Lịch Sử Hình Thành", href: "lich-su-hinh-thanh.html" },
-    { name: "Cấu Trúc Của Địa Đạo", href: "cau-truc-cua-dia-dao.html" },
-    { name: "Giá Trị Của Địa Đạo", href: "gia-tri-cua-dia-dao.html" },
-    { name: "Mô Hình & Mô Phỏng 3D", href: "mo-hinh-va-mo-phong-3d.html" },
-    { name: "Trò Chơi Tương Tác", href: "tro-choi-tuong-tac.html" }
+    { name: "Tổng Quan", href: "gioi-thieu-tong-quan.html" },
+    { name: "Vị Trí", href: "vi-tri-toa-lac.html" },
+    { name: "Lịch Sử", href: "lich-su-hinh-thanh.html" },
+    { name: "Cấu Trúc", href: "cau-truc-cua-dia-dao.html" },
+    { name: "Giá Trị", href: "gia-tri-cua-dia-dao.html" },
+    { name: "Mô Hình", href: "mo-hinh-va-mo-phong-3d.html" },
+    { name: "Trò Chơi", href: "tro-choi-tuong-tac.html" }
 ];
 
 /**
@@ -83,4 +83,5 @@ function renderDock() {
 }
 
 // Chạy hàm render Dock sau khi DOM đã tải xong
+
 document.addEventListener('DOMContentLoaded', renderDock);

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mô Hình Và Mô Phỏng 3D | Địa Đạo Củ Chi</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@700&family=Roboto:wght@300;400&display=swap');
+        
+        /* CSS cho 3D Image Sequence Viewer */
+        #model-viewer-wrapper {
+            max-width: 900px;
+            margin: 50px auto 30px auto; /* Căn giữa */
+            padding: 0 20px;
+            /* Tạo không gian bao quanh khung nhìn */
+            position: relative; 
+        }
+
+        #model-viewer-container {
+            position: relative;
+            width: 100%;
+            /* Thiết lập tỷ lệ khung hình cho ảnh, ví dụ 16:9, điều chỉnh theo ảnh thật của bạn */
+            padding-top: 56.25%; /* Tỷ lệ 16:9 (9/16 * 100%) */
+            overflow: hidden;
+            border-radius: var(--border-radius-normal);
+            cursor: grab; /* Thay đổi con trỏ chuột để báo hiệu tính tương tác */
+        }
+        
+        #model-viewer-container:active {
+            cursor: grabbing;
+        }
+
+        .model-frame {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0; /* Mặc định ẩn tất cả ảnh */
+            transition: opacity 0.05s;
+            pointer-events: none; /* Quan trọng: Không cho ảnh cản trở sự kiện chuột */
+            user-select: none; /* Ngăn người dùng chọn/kéo ảnh */
+        }
+        
+        .model-frame.active {
+            opacity: 1; /* Hiển thị ảnh đang active */
+            z-index: 10;
+        }
+        
+        /* Thêm style để hiển thị loading state ban đầu */
+        #loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: var(--color-dark-theme);
+            z-index: 20;
+            font-family: 'Oswald', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    
+    <main>
+        <section id="banner" class="page-banner-topic" style="height: 350px;">
+            <div class="page-banner">
+                MÔ HÌNH VÀ MÔ PHỎNG 3D
+            </div>
+        </section>
+
+        <section id="model-viewer-wrapper">
+            <div class="H3-text" style="text-align: center; margin-bottom: 20px; max-width: 900px; margin: 0 auto;">
+                Hãy thử mình tương tác với mô hình 3D của Địa đạo Củ Chi dưới đây!
+            </div>
+            
+            <div id="model-viewer-container">
+                <div id="loading-overlay">
+                    <p class="H3-text">Đang tải mô hình... (0%)</p>
+                    <p class="H4-text">Vui lòng chờ trong giây lát. Ảnh chất lượng cao đang được tải để đảm bảo độ mượt.</p>
+                </div>
+                </div>
+            
+            <p class="H4-text" style="text-align: center; margin-top: 15px; opacity: 0.8;">
+                Hướng dẫn: Di chuyển chuột qua mô hình để quay mô hình. Cuộn chuột lên/xuống cũng có tác dụng tương tự.
+            </p>
+        </section>
+
+            <div id="lightbox-modal" class="modal-lightbox">
+    <span class="close-btn">&times;</span>
+    <img id="lightbox-image" class="modal-content-lightbox">
+</div>
+            
+        </div>
+
+<div class="external-viewer-cta" style="max-width: 900px; margin: 40px auto; text-align: center;">
+    <p class="H3-text" style="color: var(--color-text-dark); margin-bottom: 20px;">
+        Trải nghiệm trực quan hơn với bản đồ Địa đạo 3D trên nền tảng của VisitHCM.
+    </p>
+    
+<a href="https://map3d.visithcmc.vn/?startscene=scene_1_1_2_dia-dao-cu-chi_(1)" 
+   target="_blank" 
+   class="btn btn-primary btn-cta-map H3-text">
+    Xem Bản Đồ 3D
+</a>
+
+</div>
+        
+        <section class="nav-section">
+            <button onclick="location.href='tro-choi-tuong-tac.html'" 
+                    class="btn btn-primary btn-next-page H3-text">
+                Trò chơi tương tác &nbsp; &rarr;
+            </button>
+        </section>
+                    <div id="lightbox-modal" class="modal-lightbox">
+    <span class="close-btn">&times;</span>
+    <img id="lightbox-image" class="modal-content-lightbox">
+</div>
+    
+    <script src="js/model-3d-viewer.js"></script>
+    <script src="js/dock.js"></script>
+    <script src="js/image-viewer.js"></script>
+</body>
+</html>

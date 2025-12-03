@@ -1,0 +1,324 @@
+/*
+/* -------------------------------------------------------------------------- */
+/* game.css: Định dạng chuyên biệt cho trang Trò Chơi Tương Tác */
+/* -------------------------------------------------------------------------- */
+
+/* -------------------------------------------------------------------------- */
+/* 1. MÀN HÌNH CHỌN GÓI CÂU HỎI (QUIZ SELECTION) */
+/* -------------------------------------------------------------------------- */
+
+/* Container chứa 3 thẻ chọn gói câu hỏi */
+.quiz-package-container {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+    margin-top: 50px;
+}
+
+/* Định dạng chung cho mỗi thẻ gói câu hỏi */
+.package-card {
+    flex: 1; /* Chia đều không gian cho 3 thẻ */
+    background-color: var(--card-color, var(--color-dark-theme)); /* Sử dụng biến CSS inline */
+    color: var(--color-text-light);
+    border-radius: var(--border-radius-normal);
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.package-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Định dạng chữ H1 trong thẻ (MỨC ĐỘ DỄ/TRUNG BÌNH/KHÓ) */
+/* Tận dụng font Anton 60px từ .page-banner nhưng tùy chỉnh màu sắc và kích thước */
+.package-card div[class^="H1-text-"] {
+    font-family: 'Anton', sans-serif;
+    font-size: 48px; /* Giảm nhẹ so với banner 60px */
+    text-transform: uppercase;
+    line-height: 1.1;
+    margin-bottom: 10px;
+    color: var(--color-text-light); /* Luôn màu trắng trên nền màu */
+}
+
+/* H4-text trong card */
+.package-card .H4-text {
+    color: var(--color-text-light);
+    opacity: 0.8; /* Giảm độ trong suốt nhẹ để nổi bật hơn H4 gốc */
+    margin-top: 15px;
+    margin-bottom: 25px;
+    flex-grow: 1;
+}
+
+/* Nút Bắt đầu */
+.btn-package {
+    /* Kế thừa từ .btn nhưng có thể tùy chỉnh màu */
+    background-color: rgba(255, 255, 255, 0.15); /* Nền hơi trong suốt */
+    color: var(--color-text-light);
+    border: 2px solid var(--color-text-light);
+    width: 100%;
+    margin-top: 15px;
+}
+
+.btn-package:hover {
+    background-color: var(--color-text-light);
+    color: var(--card-color, var(--color-dark-theme)); /* Màu chữ là màu của thẻ */
+    font-weight: 700;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 2. MÀN HÌNH CHƠI QUIZ (QUIZ GAME) */
+/* -------------------------------------------------------------------------- */
+
+.quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--color-background-light); /* Đường phân cách nhẹ */
+    margin-bottom: 40px;
+}
+
+.quiz-header .H4-text {
+    opacity: 1; /* Tăng độ nổi bật cho cấp độ */
+    color: var(--color-dark-theme);
+    font-weight: 400;
+}
+
+.quiz-status {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.question-container {
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: var(--border-radius-normal);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    margin-bottom: 40px;
+}
+
+/* Tùy chỉnh màu chữ H2 trong question-container để nổi bật */
+.question-container .H2-text {
+    color: var(--color-dark-theme);
+    line-height: 1.4;
+    font-size: 32px;
+}
+
+.options-container {
+    display: grid;
+    grid-template-columns: 1fr; /* Mặc định 1 cột */
+    gap: 15px;
+}
+
+.btn-option {
+    background-color: #ffffff;
+    color: var(--color-text-dark);
+    border: 1px solid #ccc;
+    padding: 15px 25px;
+    text-align: left;
+    height: auto;
+    font-weight: 400;
+    transition: all 0.2s ease, transform 0.1s;
+}
+
+.btn-option:hover:not(.disabled) {
+    border-color: var(--color-dark-theme);
+    background-color: var(--color-background-light);
+}
+
+.option-label {
+    font-weight: bold;
+    margin-right: 15px;
+    min-width: 20px;
+    display: inline-block;
+}
+
+/* TRẠNG THÁI CÂU TRẢ LỜI */
+/* Khi câu trả lời được chọn */
+.btn-option.selected {
+    background-color: var(--color-dark-theme);
+    color: var(--color-text-light);
+    border-color: var(--color-dark-theme);
+    transform: scale(1.01);
+}
+
+/* Khi câu trả lời Đúng */
+.btn-option.correct {
+    background-color: #4CAF50; /* Xanh lá cây */
+    color: var(--color-text-light);
+    border-color: #4CAF50;
+    font-weight: bold;
+}
+
+/* Khi câu trả lời Sai */
+.btn-option.incorrect {
+    background-color: #F44336; /* Đỏ */
+    color: var(--color-text-light);
+    border-color: #F44336;
+    font-weight: bold;
+}
+
+/* Vô hiệu hóa hover/click sau khi đã trả lời */
+.btn-option.disabled {
+    cursor: default;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.btn-option.disabled:hover {
+    background-color: #ffffff; /* Hoàn lại màu nền */
+    border-color: #ccc;
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* 3. MÀN HÌNH KẾT QUẢ (QUIZ RESULT) */
+/* -------------------------------------------------------------------------- */
+
+.quiz-result-screen .H1-text {
+    /* Biến --card-color-final sẽ được JS thêm vào để định màu */
+    font-family: 'Anton', sans-serif;
+    font-size: 48px;
+    text-transform: uppercase;
+    line-height: 1.1;
+}
+
+.result-summary-box {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: var(--border-radius-normal);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--color-background-light);
+}
+
+.summary-item:last-child {
+    border-bottom: none;
+    margin-top: 15px;
+    font-weight: 700;
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* 4. MODAL XÁC NHẬN (CONFIRMATION MODAL) */
+/* -------------------------------------------------------------------------- */
+
+.modal {
+    display: none; /* Ẩn mặc định */
+    position: fixed;
+    z-index: 2000; /* Đảm bảo nằm trên Dock */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4); /* Overlay mờ */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* Đặt ở giữa màn hình */
+    padding: 30px;
+    border: 1px solid #888;
+    width: 90%; /* Chiều rộng mặc định */
+    max-width: 500px; /* Chiều rộng tối đa */
+    border-radius: var(--border-radius-normal);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    position: relative;
+    text-align: center;
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: var(--color-dark-theme);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.modal-actions .btn {
+    flex: 1;
+    width: auto;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 5. MEDIA QUERIES (RESPONSIVE) CHO GAME */
+/* -------------------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+    /* Ẩn tiêu đề lớn trong thẻ trên mobile */
+    .package-card div[class^="H1-text-"] {
+        font-size: 32px;
+    }
+
+    /* Stack các thẻ chọn gói câu hỏi trên mobile */
+    .quiz-package-container {
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 30px;
+    }
+
+    .package-card {
+        padding: 20px;
+    }
+
+    .package-card .H4-text {
+        margin-top: 5px;
+        margin-bottom: 20px;
+    }
+
+    .quiz-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .quiz-status {
+        gap: 20px;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .question-container .H2-text {
+        font-size: 24px;
+    }
+
+    .modal-content {
+        margin: 50% auto;
+    }
+}

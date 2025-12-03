@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trò Chơi Tương Tác | Địa Đạo Củ Chi</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/game.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@700&family=Roboto:wght@300;400&display=swap');
+    </style>
+</head>
+<body>
+    
+    <main>
+        <section id="banner" class="page-banner-topic">
+            <div class="page-banner">
+                TRÒ CHƠI TƯƠNG TÁC
+            </div>
+        </section>
+
+        <div class="main-content-wrapper" id="quiz-selection-screen">
+            <div class="H2-text" style="text-align: center; margin-bottom: 40px;">
+                CHỌN MỨC ĐỘ PHÙ HỢP VỚI BẠN !
+            </div>
+
+            <p class="H3-text" style="text-align: center; margin-bottom: 50px; color: var(--color-text-dark-light);">
+                Hãy chọn cấp độ thử thách phù hợp với bạn. Mỗi gói gồm 15 câu hỏi.
+            </p>
+
+            <div class="quiz-package-container">
+                <div class="package-card" style="--card-color: #4CAF50;" onclick="startQuiz('GÓI DỄ')">
+                    <div class="H1-text-de">MỨC ĐỘ</br>DỄ</div>
+                    <p class="H4-text">Kiến thức cơ bản, tổng quan về Địa đạo.</p>
+                    <button class="btn btn-package">Bắt đầu !</button>
+                </div>
+
+                <div class="package-card" style="--card-color: #FFC107;" onclick="startQuiz('GÓI TRUNG BÌNH')">
+                    <div class="H1-text-trung-binh">MỨC ĐỘ</br>TRUNG BÌNH</div>
+                    <p class="H4-text">Kiến thức chuyên sâu hơn về cấu trúc, sự kiện.</p>
+                    <button class="btn btn-package">Bắt đầu !</button>
+                </div>
+
+                <div class="package-card" style="--card-color: #F44336;" onclick="startQuiz('GÓI KHÓ')">
+                    <div class="H1-text-kho">MỨC ĐỘ</br>KHÓ</div>
+                    <p class="H4-text">Thử thách cao, đòi hỏi sự am hiểu chi tiết.</p>
+                    <button class="btn btn-package">Bắt đầu !</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content-wrapper" id="quiz-game-screen" style="display: none;">
+            <div class="quiz-header">
+                <p class="H4-text" id="quiz-level-display">GÓI: ...</p>
+                <div class="quiz-status">
+                    <div class="H3-text" id="question-counter">Câu 1 / 15</div>
+                    <div class="H3-text" id="quiz-timer">Thời gian: 00:00</div>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <div class="H2-text" id="question-text">
+                    Nội dung câu hỏi sẽ hiển thị ở đây.
+                </div>
+            </div>
+
+            <div class="options-container" id="options-container">
+                <button class="btn btn-option H3-text" data-option="A" onclick="handleAnswerClick('A')"><span class="option-label">A.</span> Đáp án A</button>
+                <button class="btn btn-option H3-text" data-option="B" onclick="handleAnswerClick('B')"><span class="option-label">B.</span> Đáp án B</button>
+                <button class="btn btn-option H3-text" data-option="C" onclick="handleAnswerClick('C')"><span class="option-label">C.</span> Đáp án C</button>
+                <button class="btn btn-option H3-text" data-option="D" onclick="handleAnswerClick('D')"><span class="option-label">D.</span> Đáp án D</button>
+            </div>
+        </div>
+
+        <div class="main-content-wrapper" id="quiz-result-screen" style="display: none;">
+            <div class="H1-text" style="text-align: center; margin-bottom: 20px; color: var(--card-color-final);">
+                🎉 Chúc mừng bạn đã hoàn thành ! 🎉
+            </div>
+            
+            <p class="H3-text" style="text-align: center; margin-bottom: 50px; color: var(--color-text-dark-light);">
+                Bạn đã hoàn thành Gói câu hỏi <span id="final-level">...</span>
+            </p>
+
+            <div class="result-summary-box">
+                <div class="H2-text summary-item" style="color: #008800;">
+                    <span style="font-size: 20px;">✔</span> Số câu đúng: <span id="correct-count">0</span>
+                </div>
+                <div class="H2-text summary-item" style="color: #CC0000;">
+                    <span style="font-size: 20px;">✘</span> Số câu sai: <span id="incorrect-count">0</span>
+                </div>
+                <div class="H2-text summary-item">
+                    <span style="font-size: 20px;">⏱</span> Tổng thời gian: <span id="final-time">00:00</span>
+                </div>
+            </div>
+
+            <div class="nav-section" style="justify-content: center; margin-top: 50px;">
+                <button onclick="location.reload()" class="btn btn-primary H3-text" style="width: auto;">
+                    Chơi lại &nbsp; ⟳
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <div id="confirmation-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeConfirmationModal()">&times;</span>
+            <div class="H3-text" style="text-align: center;">
+                Bạn chắc chắn với lựa chọn <span id="selected-answer-text" style="font-weight: bold; color: var(--color-dark-theme);"></span> chứ?
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-hollowed" onclick="closeConfirmationModal()">Tôi cần suy nghĩ thêm...</button>
+                <button class="btn btn-primary" id="confirm-answer-btn">Chắn chắn !</button>
+            </div>
+        </div>
+    </div>
+
+        <section class="nav-section">
+            <button onclick="location.href='index.html'" 
+                    class="btn btn-primary btn-next-page H3-text">
+                Trở về trang chủ 🏠︎
+            </button>
+        </section>
+    
+    <script src="js/dock.js"></script>
+    <script>renderDock();</script>
+
+    <script src="js/game.js"></script>
+</body>
+</html>

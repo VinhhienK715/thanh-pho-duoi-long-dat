@@ -1,0 +1,571 @@
+/* -------------------------------------------------------------------------- */
+/* 1. KHAI BÁO BIẾN MÀU SẮC & FONT FAMILY */
+/* -------------------------------------------------------------------------- */
+:root {
+    /* Màu Sắc */
+    --color-dark-theme: #212121; /* Màu Đen chủ đạo thay thế Primary */
+    --color-text-dark: #212529; 
+    --color-text-light: #ffffff; 
+    --color-background-light: #f4f4f4;
+
+    /* Kích thước Chung */
+    --border-radius-normal: 8px;
+    --button-height: 50px; 
+    --dock-margin: 24px;
+    --dock-padding-internal: 15px; /* Padding bên trong Dock */
+}
+
+/* -------------------------------------------------------------------------- */
+/* 2. TYPOGRAPHY (FONT VÀ KÍCH THƯỚC) */
+/* -------------------------------------------------------------------------- */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    color: var(--color-text-dark);
+    background-color: var(--color-background-light);
+    padding-top: 0; 
+}
+
+/* H1 Biểu ngữ/Banner (Anton 60px) */
+.page-banner {
+    font-family: 'Anton', sans-serif;
+    font-size: 60px; 
+    text-transform: uppercase;
+    margin: 0;
+    line-height: 1.2; 
+    color: var(--color-text-light);
+}
+
+/* H2 Tiêu đề phụ/Đề mục (Oswald Bold 36px) */
+.H2-text {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 36px;
+    color: var(--color-text-dark); 
+}
+/* H3 Nội dung/Nút (Roboto Regular 16px) */
+.H3-text {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400; /* Regular */
+    font-size: 16px;
+}
+/* H4 Chú thích (Roboto Light 12px) */
+.H4-text {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300; /* Light */
+    font-size: 12px;
+    opacity: 0.5; /* H4 50% màu */
+}
+
+/* -------------------------------------------------------------------------- */
+/* 3. HERO SECTION (TRANG CHỦ VÀ TRANG CON) */
+/* -------------------------------------------------------------------------- */
+/* Banner Trang Chủ (100vh) */
+.hero-section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
+    text-align: center;
+    padding: 0 5%;
+    
+    /* CHỈNH ĐƯỜNG DẪN */
+    background: url('../assets/images/background.png') no-repeat center center/cover; 
+    position: relative;
+    color: var(--color-text-light); 
+    overflow: hidden; 
+}
+
+/* Banner Trang Con (600px) */
+.page-banner-topic {
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
+    text-align: center;
+    padding: 0 5%;
+    
+    /* CHỈNH ĐƯỜNG DẪN */
+    background: url('../assets/images/background.png') no-repeat center center/cover; 
+    position: relative;
+    color: var(--color-text-light); 
+    overflow: hidden; 
+}
+
+/* Lớp phủ #000000 50% (Áp dụng cho cả hai loại banner) */
+.hero-section::before,
+.page-banner-topic::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 1;
+}
+
+.hero-section > *,
+.page-banner-topic > * {
+    z-index: 2; 
+}
+
+/* Điều chỉnh màu chữ H3 và H4 trên nền Hero Tối */
+.hero-section .H3-text,
+.hero-section .H4-text,
+.page-banner-topic .H3-text,
+.page-banner-topic .H4-text {
+    color: var(--color-text-light); 
+}
+/* Đảm bảo H4 vẫn có opacity 50% ngay cả trên nền tối */
+.hero-section .H4-text,
+.page-banner-topic .H4-text {
+    opacity: 0.5;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 4. ĐỊNH DẠNG NÚT (BUTTON) */
+/* -------------------------------------------------------------------------- */
+.btn {
+    height: var(--button-height);
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    border-radius: var(--border-radius-normal);
+    /* Loại bỏ text-transform: uppercase; */
+    transition: all 0.3s ease;
+    box-sizing: border-box; 
+    padding: 0 25px; 
+    justify-content: center; 
+    text-align: center;
+}
+
+/* Nút Hollowed - VIỀN MÀU TRẮNG (Trang Chủ) */
+.btn-hollowed {
+    background: none;
+    border: 2px solid var(--color-text-light); 
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+}
+
+/* Nút Màu Primary (Dùng cho điều hướng trang con) */
+.btn-primary {
+    background-color: var(--color-dark-theme); /* Đổi sang màu Đen (Dark) */
+    color: var(--color-text-light);
+    border: none;
+}
+.btn-primary:hover {
+    opacity: 0.85;
+}
+
+/* Nút CTA Index (Dài 600px) */
+.btn-cta-index {
+    width: 600px; 
+    max-width: 90%;
+    color: var(--color-text-light); 
+    margin-top: 20px;
+    white-space: nowrap;
+}
+
+/* Nút Điều Hướng Trang Kế Tiếp */
+.btn-next-page {
+    width: 250px; 
+    max-width: 100%;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 5. THANH ĐIỀU HƯỚNG (DOCK) - LƠ LỬNG VÀ CHUYỂN TRẠNG THÁI */
+/* -------------------------------------------------------------------------- */
+.dock-nav {
+    position: fixed;
+    top: var(--dock-margin); 
+    right: var(--dock-margin);
+    left: var(--dock-margin); 
+    backdrop-filter: blur(5px);
+    border-radius: var(--border-radius-normal);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    height: calc(var(--button-height) + (2 * var(--dock-padding-internal)));
+    padding: var(--dock-padding-internal);
+    box-sizing: border-box;
+    transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+/* Trạng thái Dock khi đã cuộn xuống (do JS thêm class) */
+.dock-nav.scrolled {
+    background-color: var(--color-dark-theme); /* Đổi sang màu Đen (Dark) */
+    backdrop-filter: blur(5px); 
+}
+
+.logo-resized {
+    height: var(--button-height); 
+    margin-right: 25px;
+    display: flex;
+    align-items: center;
+}
+.logo-resized img {
+    height: 30px; 
+}
+
+.dock-nav-items-container {
+    display: flex;
+    margin-left: auto; 
+    height: 100%;
+}
+
+.dock-nav-item {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: var(--color-text-light);
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    transition: font-weight 0.3s;
+}
+
+.dock-nav-item.active {
+    font-weight: bold;
+}
+
+/* Loại bỏ chú thích DOCX khỏi nội dung hiển thị */
+.cite-start, .cite-end {
+    display: none !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 6. NỘI DUNG CHÍNH (TOPIC CONTENT) */
+/* -------------------------------------------------------------------------- */
+.main-content-wrapper {
+    max-width: 900px; 
+    margin: 50px auto; 
+    padding: 0 20px;
+}
+
+/* Section chứa nút điều hướng */
+.nav-section {
+    max-width: 900px;
+    margin: 40px auto 80px auto; 
+    padding: 0 20px;
+    display: flex;
+    justify-content: flex-end; 
+}
+
+/* -------------------------------------------------------------------------- */
+/* 7. MEDIA QUERIES (RESPONSIVE) */
+/* -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+    .page-banner,
+    .page-banner-topic .page-banner {
+        font-size: 40px; 
+    }
+    .page-banner-topic {
+        height: 350px; /* Giảm chiều cao trên mobile */
+    }
+    .btn-cta-index {
+        width: 100% !important;
+        white-space: normal;
+        justify-content: flex-start; 
+        text-align: left;
+        height: auto; 
+        padding: 15px 25px;
+    }
+    /* Điều chỉnh vị trí Dock trên mobile */
+    .dock-nav {
+        bottom: 0; 
+        top: auto;
+        left: 0; 
+        right: 0;
+        max-width: none;
+        border-radius: 0;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        margin: 0;
+        height: 70px;
+    }
+    .dock-nav-items-container {
+        flex-grow: 1; /* Cho phép container items chiếm hết không gian */
+        justify-content: space-around; /* Căn đều các mục */
+        gap: 0; /* Loại bỏ gap */
+    }
+    .dock-nav-item {
+        padding: 0 10px;
+        font-size: 14px;
+    }
+    .logo-resized {
+        display: none;
+    }
+
+    .main-content-wrapper {
+        margin: 30px auto;
+        padding-bottom: 90px; /* Thêm padding dưới để tránh bị Dock che */
+    }
+    
+    .image-gallery-item {
+        flex: 1 1 100%; /* Mỗi ảnh chiếm 1 dòng trên mobile */
+        height: 250px;
+    }
+
+}
+
+/* -------------------------------------------------------------------------- */
+/* 8. IMAGE GALLERY */
+/* -------------------------------------------------------------------------- */
+.image-gallery {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 15px;
+    margin: 40px auto; 
+    justify-content: center;
+    max-width: 900px; 
+    padding: 0 20px;
+}
+
+.image-gallery-item {
+    flex: 1 1 250px; 
+    overflow: hidden;
+    border-radius: var(--border-radius-normal);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.image-gallery-item img {
+    width: 100%;
+    height: 600px;
+    object-fit: cover; 
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.image-gallery-item img:hover {
+    transform: scale(1.05);
+}
+
+/* Đảm bảo trang chủ không bị ảnh hưởng bởi padding dưới */
+#hero {
+    padding-bottom: 0 !important; 
+}
+
+/* -------------------------------------------------------------------------- */
+/* 9. MÔ HÌNH VÀ MÔ PHỎNG 3D (IMAGE SEQUENCE VIEWER) */
+/* -------------------------------------------------------------------------- */
+
+.model-viewer-container {
+    /* Đảm bảo container là vị trí cha để xếp chồng các ảnh */
+    position: relative; 
+    width: 100%;
+    /* Điều chỉnh chiều cao theo tỷ lệ ảnh của bạn (ví dụ: 500px) */
+    height: 600px; 
+    cursor: grab; /* Thay đổi con trỏ chuột để báo hiệu tính tương tác */
+    user-select: none; /* Ngăn chặn việc chọn văn bản/ảnh */
+    margin: 40px auto;
+    overflow: hidden; /* Quan trọng: ẩn ảnh nếu vượt quá kích thước container */
+    border-radius: var(--border-radius-normal);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.model-frame {
+    /* Các ảnh frame được xếp chồng lên nhau */
+    position: absolute; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Đảm bảo ảnh hiển thị vừa vặn */
+    opacity: 0; /* Mặc định ẩn tất cả các frame */
+    transition: opacity 0.05s ease-in-out; /* Tạo hiệu ứng chuyển đổi mượt */
+}
+
+.model-frame.active {
+    /* Chỉ hiển thị frame đang được kích hoạt */
+    opacity: 1; 
+}
+
+/* Hiệu ứng Loading Overlay */
+#loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-background-light);
+    color: var(--color-text-dark);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 10; /* Đảm bảo overlay nằm trên các frame */
+    border-radius: var(--border-radius-normal);
+}
+
+/* -------------------------------------------------------------------------- */
+/* 9. LIGHTBOX/MODAL IMAGE GALLERY */
+/* -------------------------------------------------------------------------- */
+
+/* Container bao phủ toàn màn hình */
+.lightbox {
+    display: none; /* Ẩn đi mặc định */
+    position: fixed;
+    z-index: 1000; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.9); /* Nền mờ đen */
+}
+
+/* Nút đóng (x) */
+.lightbox-close {
+    position: fixed; 
+    top: 20px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+    z-index: 1001; 
+}
+
+/* Nội dung ảnh (Ảnh được phóng to) */
+.lightbox-content {
+    margin: auto;
+    display: block;
+    width: 100%;
+    max-width: 100%; 
+    height: auto;
+    max-height: 90vh; 
+    object-fit: contain; 
+    margin-top: 5vh; 
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+/* Thêm style cho item trong gallery để người dùng biết có thể bấm vào */
+.image-gallery-item img {
+    cursor: pointer; 
+    transition: opacity 0.3s;
+}
+
+.image-gallery-item img:hover {
+    opacity: 0.8;
+}
+
+/* Animation cho ảnh (Hiệu ứng zoom) */
+@keyframes zoom {
+    from {transform: scale(0.8)}
+    to {transform: scale(1)}
+}
+
+/* -------------------------------------------------------------------------- */
+/* STYLE CHO IMAGE LIGHTBOX/MODAL (Thêm vào style.css) */
+/* -------------------------------------------------------------------------- */
+
+.modal-lightbox {
+    display: none; /* Mặc định ẩn */
+    position: fixed; 
+    z-index: 9999; /* Đảm bảo nó nằm trên tất cả các phần tử khác */
+    padding-top: 25px; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; 
+    background-color: rgba(0, 0, 0, 0.9); /* Nền tối */
+    justify-content: center; /* Căn giữa nội dung */
+    align-items: center; /* Căn giữa nội dung */
+}
+
+.modal-content-lightbox {
+    margin: auto;
+    display: block;
+    width: 90%; 
+    max-width: 1000px; /* Kích thước tối đa của ảnh */
+    max-height: 90vh; /* Chiều cao tối đa */
+    border-radius: var(--border-radius-normal);
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: #bbb;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 10. STYLE CHO IFRAME BẢN ĐỒ */
+/* -------------------------------------------------------------------------- */
+
+.map-container {
+    /* Đảm bảo container có kích thước cố định hoặc responsive */
+    width: 100%;
+    /* Chiều cao cố định hoặc dùng padding-bottom cho tỷ lệ khung hình */
+    height: 600px; 
+    
+    /* Đồng bộ với các phần tử khác */
+    border-radius: var(--border-radius-normal); /* 8px */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
+    overflow: hidden; /* Quan trọng: để góc bo hoạt động */
+    margin: 40px auto; 
+    max-width: 900px; /* Đồng bộ với .main-content-wrapper */
+}
+
+.map-container iframe {
+    /* Đảm bảo iframe lấp đầy container */
+    width: 100%;
+    height: 100%;
+    /* Google Maps embed đã có border: 0, nhưng bạn có thể thêm để đảm bảo */
+    border: none; 
+}
+
+/* Áp dụng Responsive */
+@media (max-width: 768px) {
+    .map-container {
+        height: 300px; /* Giảm chiều cao trên thiết bị di động */
+        margin: 30px auto;
+    }
+}
+
+/* -------------------------------------------------------------------------- */
+/* 11. STYLE CHO AUDIO PLAYER */
+/* -------------------------------------------------------------------------- */
+.audio-player-wrapper {
+    /* Đảm bảo container chiếm toàn bộ chiều rộng (tương tự main-content-wrapper) */
+    width: 100%;
+    max-width: 900px; 
+    margin: 40px auto; 
+    padding: 0 20px;
+    
+    /* Áp dụng góc bo và đổ bóng đồng bộ */
+    border-radius: var(--border-radius-normal); /* 8px */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden; 
+    /* Đặt màu nền để container đồng bộ, mặc dù không áp dụng cho <audio> */
+    background-color: var(--color-background-light); 
+}
+
+.audio-player-wrapper audio {
+    /* Đảm bảo phần tử audio lấp đầy container */
+    width: 100%;
+    /* Đồng bộ chiều cao (có thể tùy chỉnh) */
+    height: var(--button-height); /* 50px */
+    display: block; /* Quan trọng để tránh khoảng trống */
+    
+    /* Tùy chỉnh màu sắc (Chỉ áp dụng trên một số trình duyệt nhất định và hạn chế) */
+    color: var(--color-dark-theme); /* Màu chủ đạo cho các yếu tố điều khiển (nếu được hỗ trợ) */
+    background-color: var(--color-background-light); /* Màu nền (nếu được hỗ trợ) */
+}

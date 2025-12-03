@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // LOG KHỞI ĐỘNG: Kiểm tra xem script có chạy không
     console.log("--- Bắt đầu script model-3d-viewer.js (Hỗ trợ Mobile, đã sửa lỗi iPad) ---"); 
 
-    // LƯU Ý: Nếu bạn có 16 frame, hãy đổi lại thành 16. Hiện tại đang là 14.
+    // Tổng 14 khung hình của mô hình
     const totalFrames = 14; 
     
     // Đảm bảo các ID HTML Tồn tại
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return; 
     }
     
-    // Kiểm tra đường dẫn ảnh (Chắc chắn khớp với thư mục của bạn)
+    // Kiểm tra đường dẫn ảnh 
     const baseImagePath = 'assets/images/model-3d/frame_'; 
     const imageExtension = '.png'; 
     
@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // ------------------------------------------------------------------
-    // --- 4. CÀI ĐẶT TƯƠNG TÁC CẢM ỨNG (MOBILE/IPAD) - ĐÃ SỬA LỖI ---
+    // --- 4. CÀI ĐẶT TƯƠNG TÁC CẢM ỨNG (MOBILE/IPAD) ---
     // ------------------------------------------------------------------
     function setupTouchInteraction() {
         let startClientX = null;
@@ -200,3 +200,4 @@ document.addEventListener('DOMContentLoaded', () => {
     // Bắt đầu quá trình tải ảnh
     preloadAndRenderImages();
 });
+

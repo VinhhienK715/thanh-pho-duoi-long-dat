@@ -1,11 +1,12 @@
 /**
  * model-3d-viewer.js
  * Phiên bản sửa lỗi và kiểm tra Tải Ảnh (16 Frames) - Tích hợp Hỗ trợ MOBILE (Touch Events)
+ * ĐÃ KHẮC PHỤC LỖI IPAD VUỐT KHÔNG ĐƯỢC
  */
 
 document.addEventListener('DOMContentLoaded', () => {
     // LOG KHỞI ĐỘNG: Kiểm tra xem script có chạy không
-    console.log("--- Bắt đầu script model-3d-viewer.js (Hỗ trợ Mobile) ---"); 
+    console.log("--- Bắt đầu script model-3d-viewer.js (Hỗ trợ Mobile, đã sửa lỗi iPad) ---"); 
 
     // LƯU Ý: Nếu bạn có 16 frame, hãy đổi lại thành 16. Hiện tại đang là 14.
     const totalFrames = 14; 
@@ -16,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (!viewerContainer) {
         console.error("LỖI KHÔNG TÌM THẤY: Không tìm thấy ID 'model-viewer-container'. Vui lòng kiểm tra lại file HTML.");
-        return; // Dừng nếu container không có
+        return; 
     }
     
     // Kiểm tra đường dẫn ảnh (Chắc chắn khớp với thư mục của bạn)
@@ -55,19 +56,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     // GỌI CẢ TƯƠNG TÁC CHUỘT VÀ TƯƠNG TÁC CẢM ỨNG
                     setupInteraction();
-                    setupTouchInteraction(); // <--- ĐÃ THÊM
+                    setupTouchInteraction(); 
                 }
             };
             
             img.onerror = () => {
-                // LOG LỖI TẢI ẢNH: Cung cấp thông báo chi tiết
-                console.error(`❌ LỖI TẢI ẢNH (404/Sai tên): Không tìm thấy file: ${imagePath}.`);
+                console.error(`❌ LỖI TẢI ẢNH: Không tìm thấy file: ${imagePath}.`);
                 if(overlay) {
                      overlay.innerHTML = `<p class="H3-text" style="color: red;">Lỗi tải ảnh!</p><p class="H4-text">Không tìm thấy file: ${imagePath}.</p>`;
                 }
             };
 
-            // Gán source và chèn ảnh vào container
             img.setAttribute('src', imagePath); 
             viewerContainer.appendChild(img);
         }
@@ -75,8 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 2. LOGIC HIỂN THỊ FRAME ---
     function displayFrame(frameIndex) {
-        // Đảm bảo frameIndex luôn nằm trong khoảng [1, totalFrames]
-        // Math.ceil() ở đây để xử lý số âm từ phép toán modulo
         currentFrame = ((frameIndex - 1 + totalFrames * 10) % totalFrames) + 1;
 
         document.querySelectorAll('.model-frame').forEach(frame => {
@@ -87,7 +84,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (activeFrame) {
             activeFrame.classList.add('active');
         } else {
-             // LOG LỖI HIỂN THỊ: Nếu frame cần hiển thị không tồn tại
              console.warn(`⚠️ CẢNH BÁO: Không tìm thấy frame ID: model-frame-${currentFrame} để hiển thị.`);
         }
     }
@@ -97,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Tương tác Cuộn chuột (Wheel)
         let frameOnScroll = currentFrame;
         let scrollDelta = 0;
-        const scrollSensitivity = 125; // Cần cuộn 125 pixel mới chuyển 1 frame
+        const scrollSensitivity = 125; 
 
         viewerContainer.addEventListener('wheel', (event) => {
             event.preventDefault(); 
@@ -114,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Tương tác Rê chuột (Mousemove/Drag)
         let lastClientX = null;
         let framesToAdvance = 0;
-        const moveSensitivity = 125; // Cần rê 125 pixel mới chuyển 1 frame
+        const moveSensitivity = 125; 
 
         viewerContainer.addEventListener('mousemove', (event) => {
             if (isPreloading) return;
@@ -124,7 +120,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 framesToAdvance += deltaX / moveSensitivity;
 
                 if (Math.abs(framesToAdvance) >= 1) {
-                    // Hướng: Rê SANG PHẢI (deltaX > 0) -> Chuyển frame NGƯỢC LẠI (-1)
                     const direction = framesToAdvance > 0 ? -1 : 1; 
                     const steps = Math.floor(Math.abs(framesToAdvance)); 
                     
@@ -144,28 +139,32 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log("Tương tác Chuột (Interaction) đã được thiết lập.");
     }
     
-    // --- 4. BỔ SUNG: Cài đặt TƯƠNG TÁC CẢM ỨNG (MOBILE) ---
+    // ------------------------------------------------------------------
+    // --- 4. CÀI ĐẶT TƯƠNG TÁC CẢM ỨNG (MOBILE/IPAD) - ĐÃ SỬA LỖI ---
+    // ------------------------------------------------------------------
     function setupTouchInteraction() {
         let startClientX = null;
         let framesToAdvanceTouch = 0;
-        const touchSensitivity = 70; // Độ nhạy cho mobile
+        const touchSensitivity = 70; // Độ nhạy cho mobile/ipad
 
+        // 1. touchstart: Ghi lại vị trí bắt đầu
         viewerContainer.addEventListener('touchstart', (event) => {
             if (isPreloading) return;
-            // Chỉ xử lý nếu có 1 ngón tay 
             if (event.touches.length === 1) {
                 startClientX = event.touches[0].clientX;
             } else {
                 startClientX = null;
             }
-        }, { passive: true }); 
+        }, { passive: true }); // passive: true
 
+        // 2. touchmove: Xử lý vuốt và CHẶN CUỘN TRANG (Quan trọng cho iPad/iOS)
         viewerContainer.addEventListener('touchmove', (event) => {
             if (isPreloading || startClientX === null) return;
             
-            // CHẶN cuộn trang mặc định để ưu tiên quay mô hình
-            // LƯU Ý: Có thể cần loại bỏ nếu bạn muốn người dùng cuộn trang web khi không chạm vào mô hình
-            event.preventDefault(); 
+            // Lệnh QUAN TRỌNG: Chỉ chặn cuộn khi vuốt ngang đủ một khoảng (10px)
+            if (Math.abs(event.touches[0].clientX - startClientX) > 10) { 
+                 event.preventDefault(); 
+            }
 
             const currentClientX = event.touches[0].clientX;
             const deltaX = currentClientX - startClientX;
@@ -173,7 +172,6 @@ document.addEventListener('DOMContentLoaded', () => {
             framesToAdvanceTouch += deltaX / touchSensitivity;
 
             if (Math.abs(framesToAdvanceTouch) >= 1) {
-                // Hướng: Vuốt SANG PHẢI (deltaX > 0) -> Chuyển frame NGƯỢC LẠI (-1)
                 const direction = framesToAdvanceTouch > 0 ? -1 : 1; 
                 const steps = Math.floor(Math.abs(framesToAdvanceTouch)); 
                 
@@ -182,11 +180,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 displayFrame(currentFrame);
                 framesToAdvanceTouch %= 1; 
-                // Cập nhật vị trí bắt đầu mới để tính toán chính xác hơn
-                startClientX = currentClientX; 
+                startClientX = currentClientX; // Cập nhật vị trí
             }
-        }, { passive: false }); // Cần passive: false để event.preventDefault() hoạt động
+        }, { passive: false }); // <--- THIẾT LẬP BẮT BUỘC CHO event.preventDefault()
 
+        // 3. touchend/touchcancel: Đặt lại trạng thái
         viewerContainer.addEventListener('touchend', () => {
             startClientX = null;
             framesToAdvanceTouch = 0;
@@ -196,7 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
             framesToAdvanceTouch = 0;
         });
 
-        console.log("Tương tác Cảm ứng (Touch Interaction) đã được thiết lập.");
+        console.log("Tương tác Cảm ứng (Touch Interaction) đã được điều chỉnh cho iPad.");
     }
 
     // Bắt đầu quá trình tải ảnh
